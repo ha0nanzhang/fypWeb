@@ -110,7 +110,10 @@ mat2 = bpy.data.materials.get("Material.004")
 eyeNode2 =  bpy.data.node_groups["NodeGroup.008"].nodes["Principled BSDF"]
 
 skinNode = bpy.data.node_groups["NodeGroup"].nodes["Mix"]
-skinNode.inputs[1].default_value = (dataSkin[0], dataSkin[1], dataSkin[2], 1)
+if (dataSkin[0] < 100/255):
+    skinNode.inputs[2].default_value = (dataSkin[0], dataSkin[1], dataSkin[2], 1)
+else:
+    skinNode.inputs[1].default_value = (dataSkin[0], dataSkin[1], dataSkin[2], 1)
 #skinNode.inputs[2].default_value = (dataSkin[0] + 0.1, dataSkin[1] - 0.2, dataSkin[2] + 0.1, 1)
 
 
