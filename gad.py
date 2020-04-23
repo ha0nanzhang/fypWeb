@@ -1,3 +1,5 @@
+#Reference: https://data-flair.training/blogs/python-project-gender-age-detection/ 
+
 import cv2
 import math
 import argparse
@@ -76,7 +78,7 @@ while cv2.waitKey(1)<0:
         
         helpMe = dict(gender = str(gender),age = str(age))
 
-        with open('test1.json', 'w') as outfile:
+        with open('ageGender.json', 'w') as outfile:
             json.dump(helpMe, outfile)   
         
         cv2.imwrite('result.jpg', resultImg)

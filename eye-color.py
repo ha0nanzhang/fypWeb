@@ -1,3 +1,4 @@
+#Reference: https://github.com/ghimiredhikura/Eye-Color-Detection
 # face color analysis given eye center position
 import sys
 import os
@@ -82,17 +83,17 @@ def eye_color(image):
     main_color_index = np.argmax(eye_class[:len(eye_class)-1])
     total_vote = eye_class.sum()
 
-    print("\n\nDominant Eye Color: ", class_name[main_color_index])
-    print("\n **Eyes Color Percentage **")
-    for i in range(len(class_name)):
-        print(class_name[i], ": ", round(eye_class[i]/total_vote*100, 2), "%")
+    #print("\n\nDominant Eye Color: ", class_name[main_color_index])
+    #print("\n **Eyes Color Percentage **")
+    #for i in range(len(class_name)):
+        #print(class_name[i], ": ", round(eye_class[i]/total_vote*100, 2), "%")
     
     label = 'Dominant Eye Color: %s' % class_name[main_color_index]  
-    #cv2.putText(image, label, (left_eye[0]-10, left_eye[1]-40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (155,255,0))
-    #cv2.imshow('EYE-COLOR-DETECTION', image)
+##    cv2.putText(image, label, (left_eye[0]-10, left_eye[1]-40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (155,255,0))
+##    cv2.imshow('EYE-COLOR-DETECTION', image)
 
     helpMe = dict(eye = class_name[main_color_index])
-    with open('test.json', 'w') as outfile:
+    with open('eyeColour.json', 'w') as outfile:
             json.dump(helpMe, outfile)   
 
 if __name__ == '__main__':

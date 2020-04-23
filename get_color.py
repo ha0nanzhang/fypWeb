@@ -1,3 +1,5 @@
+#Reference: https://github.com/Nitish1206/skin_and_hair_color
+
 import numpy as np
 from collections import Counter
 import dlib

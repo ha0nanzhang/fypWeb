@@ -1,3 +1,5 @@
+#Reference: https://github.com/Nitish1206/skin_and_hair_color
+
 import numpy as np
 import cv2
 from collections import Counter
@@ -45,7 +47,7 @@ if len(rects) > 0:
         print('skin color', color[0], i)
         print('hair color', color[1], i)
         helpMe = dict(skin = color[0], hair = color[1])
-        with open('skinhair.json', 'w') as outfile:
+        with open('skinHair.json', 'w') as outfile:
             json.dump(helpMe, outfile)   
         cv2.rectangle(original_image,(530,50),(630,150),(color[1][2],color[1][1],color[1][0]),-1)
         cv2.rectangle(original_image, (400, 50), (500, 150), (color[0][2], color[0][1], color[0][0]), -1)
