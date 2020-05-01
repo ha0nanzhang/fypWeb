@@ -5,6 +5,12 @@ import sys
 argv = sys.argv
 argv = argv[argv.index("--") + 1:]
 
+if len(argv) == 4:
+    #camera position is an optional argument
+    cameraPos = 'default'
+else:
+    cameraPos = argv[4]
+
 dir = os.path.dirname(bpy.data.filepath)
 testDir = os.path.join(dir, argv[0]) #eye colour
 testDir2 = os.path.join(dir, argv[1]) #gender and age
@@ -25,6 +31,22 @@ dataAge = data2["age"]
 dataSkin = data3["skin"]
 dataHair = data3["hair"]
 
+
+camera = bpy.data.objects['Camera']
+#default position
+
+pi = 3.14159265
+
+if cameraPos == 'default':
+    camera.location = (0.028045, -6.114, 2.3973)
+    camera.rotation_euler = [82.8*(pi/180), -0, 0]
+if cameraPos == 'right':
+    camera.location = (1.86404, -5.1812, 2.2909)
+    camera.rotation_euler = [82.8*(pi/180), -0, 17*(pi/180)]
+if cameraPos == 'left':
+    camera.location = (-2.0529, -5.1812, 2.2909)
+    camera.rotation_euler = [82.8*(pi/180), -0, -18.8*(pi/180)]
+
 dataSkin[:] = [x / 255 for x in dataSkin]
 dataHair[:] = [x / 255 for x in dataHair]
 
@@ -39,7 +61,6 @@ if dataAge == '(0-2)' or dataAge == '(3-6)' or dataAge == '(8-12)':
     bpy.data.collections['mold'].hide_render = True
     bpy.data.collections['baby'].hide_viewport = False
     bpy.data.collections['baby'].hide_render = False
-    
     
 else:
     if dataG == 'Male':
@@ -79,8 +100,7 @@ else:
             bpy.data.collections['mold'].hide_render = True
             bpy.data.collections['baby'].hide_viewport = True
             bpy.data.collections['baby'].hide_render = True
-#             
-#            
+        
         if dataAge == '(38-43)' or dataAge == '(48-53)' or dataAge == '(60-100)':    
             bpy.data.collections['newfteen'].hide_viewport = True
             bpy.data.collections['newfteen'].hide_render = True
@@ -94,16 +114,11 @@ else:
             bpy.data.collections['baby'].hide_render = True
             
     
-    
-    #nodes["ColorRamp"].color_ramp.elements[0].color
-    
-    
 hairMat = bpy.data.materials.get("Material.021")
 hairNode = bpy.data.node_groups["NodeGroup.006"].nodes["Mix"]
 hairNode.inputs[1].default_value = (dataHair[0], dataHair[1], dataHair[2], 1)
 hairNode.inputs[2].default_value = (0.0, 0.0, 0.0, 1)
     
-#eye1=bpy.data.objects['Sphere.000']
 mat = bpy.data.materials.get("iris.006")
 eyeNode = bpy.data.node_groups["NodeGroup.007"].nodes["ColorRamp"]
 mat2 = bpy.data.materials.get("Material.004")
@@ -114,7 +129,6 @@ if (dataSkin[0] < 100/255):
     skinNode.inputs[2].default_value = (dataSkin[0], dataSkin[1], dataSkin[2], 1)
 else:
     skinNode.inputs[1].default_value = (dataSkin[0], dataSkin[1], dataSkin[2], 1)
-#skinNode.inputs[2].default_value = (dataSkin[0] + 0.1, dataSkin[1] - 0.2, dataSkin[2] + 0.1, 1)
 
 
 if data1 == "Brown":
@@ -146,6 +160,6 @@ if data1 == "Other":
           
           
 bpy.context.scene.render.filepath = os.path.join(dir, 'newPic', str(argv[3]) + ".png") 
-#bpy.context.scene.render.resolution_x = w #perhaps set resolution in code
+#bpy.context.scene.render.resolution_x = w  // can set resolution in code
 #bpy.context.scene.render.resolution_y = h
 bpy.ops.render.render(write_still = True)

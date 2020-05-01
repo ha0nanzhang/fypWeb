@@ -8,7 +8,7 @@ import json
 import time
 
 tableHeaders = ['id', 'original photo', 'parameters', 'model']
-noRows = 24
+noRows = 47
 
 inputPhotos = glob.glob('img/*.png')
 
@@ -29,12 +29,12 @@ with doc:
                 for i in range(noRows):
                     with tr():
                         td(i+1)
-                        td(div(img(src=inputPhotos[i]), _class = 'img', style ="height:10%, width:10%"))
+                        td(div(img(src=inputPhotos[i]), _class = 'img', style ="height:900px, width:900px"))
 
                         os.system('python3 main.py -- ' + str(inputPhotos[i]))
                         os.system('py.exe eye-color.py --input_path=' + str(inputPhotos[i]))
                         os.system('python3 gad.py --image ' + str(inputPhotos[i]))
-                        os.system('blender.exe -b model.blend -P alterModel.py -- eyeColour.json ageGender.json skinHair.json ' + str(i))
+                        os.system('blender.exe -b model.blend -P alterModel.py -- eyeColour.json ageGender.json skinHair.json ' + str(i)) # add ' left' or ' right' for different camera position
                         
                         with open('eyeColour.json', "r") as readFile:
                             data = json.load(readFile)
@@ -52,10 +52,8 @@ with doc:
                         skinPatch = div(_class='circle', style = "background-color:rgb" + str(skinRgb))
                         hairPatch = div(_class='circle', style = "background-color:rgb" + str(hairRgb))
 
-                        td('Eye colour: ' + str(data['eye']), eyePatch, br(), 'Gender: ' + str(data2['gender']), br(), br(),'Age: ' + str(data2['age']), br(), br(), 'Skin colour: ' + str(data3['skin']), skinPatch, br(), 'hair colour: ' + str(data3['hair']), hairPatch)
-                        # + str(data2) +  str(data3), _class = 'body')))
+                        td('Eye colour: ' + str(data['eye']), eyePatch, br(), 'Gender: ' + str(data2['gender']), br(), br(),'Age: ' + str(data2['age']), br(), br(), 'Skin colour: ' + str(data3['skin']), skinPatch, br(), 'Hair colour: ' + str(data3['hair']), hairPatch)
                         outputPhotos = glob.glob('newPic/' + str(i) + '.png')
-                        #print('files {}'.format(outputPhotos))
 
                         td(div(img(src=outputPhotos[0]), _class = 'img'))        
 
